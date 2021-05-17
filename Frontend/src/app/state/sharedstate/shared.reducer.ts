@@ -1,5 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
-import { loading } from './shared.action';
+import { aside, loading } from './shared.action';
 import { Initial_State } from './shared.state';
 
 const _loading_reducer = createReducer(
@@ -8,6 +8,13 @@ const _loading_reducer = createReducer(
     return {
       ...state,
       spinner: action.spinner,
+    };
+  }),
+  on(aside, (state, action) => {
+    console.log(action);
+    return {
+      ...state,
+      aside: !state.aside,
     };
   })
 );

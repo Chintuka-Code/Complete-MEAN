@@ -14,6 +14,8 @@ import { SpinnerComponent } from './component/spinner/spinner.component';
 import { Shared_Reducer } from './state/sharedstate/shared.reducer';
 import { GlobalInterceptorInterceptor } from './Interceptor/global-interceptor.interceptor';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AsideComponent } from './component/aside/aside.component';
+import { SharedModule } from './shared-Module/shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -21,6 +23,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
     HeaderComponent,
     FooterComponent,
     SpinnerComponent,
+    AsideComponent,
   ],
   imports: [
     BrowserModule,
@@ -31,6 +34,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
       logOnly: environment.production,
     }),
     EffectsModule.forRoot([]),
+    SharedModule,
   ],
   providers: [
     {

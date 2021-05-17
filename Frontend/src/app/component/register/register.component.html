@@ -1,1 +1,165 @@
-<p>register works!</p>
+<div class="register">
+  <div class="container-fluid">
+    <form [formGroup]="register_form" (ngSubmit)="register_user()">
+      <div class="row">
+        <div class="col-12 col-md-6 p-2">
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input
+              type="text"
+              name="name"
+              formControlName="name"
+              class="form-control"
+              id=""
+            />
+            <div
+              *ngIf="
+                register_form.controls.name.invalid &&
+                register_form.controls.name.dirty
+              "
+              class="alert alert-danger mt-2"
+            >
+              <div *ngIf="register_form.controls.name.errors.required">
+                Name is required
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-md-6 p-2">
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input
+              type="email"
+              name="email"
+              formControlName="email"
+              class="form-control"
+              id=""
+            />
+            <div
+              *ngIf="
+                register_form.controls.email.invalid &&
+                register_form.controls.email.dirty
+              "
+              class="alert alert-danger mt-2"
+            >
+              <div *ngIf="register_form.controls.email.errors.required">
+                Email is required
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-md-6 p-2">
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input
+              type="password"
+              name="password"
+              formControlName="password"
+              class="form-control"
+              id=""
+            />
+            <div
+              *ngIf="
+                register_form.controls.password.invalid &&
+                register_form.controls.password.dirty
+              "
+              class="alert alert-danger mt-2"
+            >
+              <div *ngIf="register_form.controls.password.errors.required">
+                Password is required
+              </div>
+              <div
+                *ngIf="register_form.controls.password.errors.notValidPassword"
+              >
+                <ol>
+                  <li>A password should be alphanumeric.</li>
+                  <li>First letter of the password should be capital.</li>
+                  <li>
+                    Password must contain a special character (@, $, !, &, etc).
+                  </li>
+                  <li>Password length must be greater than 8 characters.</li>
+                  <li>
+                    One of the most important that the password fields should
+                    not be empty.
+                  </li>
+                </ol>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-md-6 p-2">
+          <div class="form-group">
+            <label for="confirm-password">Confirm Password</label>
+            <input
+              type="password"
+              name="confirm-password"
+              class="form-control"
+              formControlName="confirm_password"
+              id=""
+            />
+
+            <div
+              *ngIf="
+                register_form.controls.confirm_password.invalid &&
+                register_form.controls.confirm_password.dirty
+              "
+              class="alert alert-danger mt-2"
+            >
+              <div
+                *ngIf="register_form.controls.confirm_password.errors.required"
+              >
+                Confirm Password is required
+              </div>
+
+              <div
+                *ngIf="
+                  register_form.controls.confirm_password.errors
+                    .passwordNotMatch
+                "
+              >
+                Password not Match
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-md-6 p-2">
+          <div class="form-group">
+            <label for="file">Images</label>
+            <input
+              type="file"
+              name="file"
+              formControlName="image"
+              class="form-control"
+              id=""
+              (change)="getFiles($event)"
+            />
+            <div
+              *ngIf="
+                register_form.controls.image.invalid &&
+                register_form.controls.image.dirty
+              "
+              class="alert alert-danger mt-2"
+            >
+              <div *ngIf="register_form.controls.image.errors.required">
+                Confirm Password is required
+              </div>
+
+              <div *ngIf="register_form.controls.image.errors.fileSize">
+                File Size must be Less then 2Mb
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-md-6 p-2 align-self-end">
+          <input
+            type="submit"
+            class="btn btn-success"
+            [disabled]="register_form.invalid"
+            name=""
+            id=""
+          />
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

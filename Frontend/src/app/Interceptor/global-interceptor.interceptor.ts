@@ -23,6 +23,9 @@ export class GlobalInterceptorInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<unknown>> {
     const token = `Bearer ${localStorage.getItem('token')}`;
+    if (!token) {
+      return next.handle(request).pipe(catchError(this.handleError));
+    }
     request = request.clone({
       setHeaders: {
         Authorization: token,

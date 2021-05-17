@@ -1,5 +1,9 @@
 <app-header></app-header>
-<router-outlet></router-outlet>
+<div class="p-2">
+  <router-outlet></router-outlet>
+</div>
 <app-footer></app-footer>
+
+<app-aside></app-aside>
 
 <app-spinner *ngIf="loading$ | async"></app-spinner>
