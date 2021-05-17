@@ -12,6 +12,8 @@ import { EffectsModule } from '@ngrx/effects';
 import { environment } from '../environments/environment';
 import { SpinnerComponent } from './component/spinner/spinner.component';
 import { Shared_Reducer } from './state/sharedstate/shared.reducer';
+import { GlobalInterceptorInterceptor } from './Interceptor/global-interceptor.interceptor';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -30,7 +32,13 @@ import { Shared_Reducer } from './state/sharedstate/shared.reducer';
     }),
     EffectsModule.forRoot([]),
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: GlobalInterceptorInterceptor,
+      multi: true,
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

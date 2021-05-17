@@ -10,15 +10,15 @@ import { getLoading } from './state/sharedstate/shared.selector';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  constructor(private store: Store<{ shared: SharedState }>) {}
+  constructor(private store: Store) {}
 
   loading$: Observable<boolean>;
+
+  title = 'Frontend';
 
   get_Loading() {
     this.loading$ = this.store.select(getLoading);
   }
-
-  title = 'Frontend';
 
   ngOnInit() {
     this.get_Loading();
