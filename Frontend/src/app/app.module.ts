@@ -16,6 +16,7 @@ import { GlobalInterceptorInterceptor } from './Interceptor/global-interceptor.i
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AsideComponent } from './component/aside/aside.component';
 import { SharedModule } from './shared-Module/shared/shared.module';
+import { CreateUserEffect } from './state/sharedstate/shared.effect';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,7 @@ import { SharedModule } from './shared-Module/shared/shared.module';
       maxAge: 25,
       logOnly: environment.production,
     }),
-    EffectsModule.forRoot([]),
+    EffectsModule.forRoot([CreateUserEffect]),
     SharedModule,
   ],
   providers: [

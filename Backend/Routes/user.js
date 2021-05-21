@@ -2,12 +2,37 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+var multer = require('multer');
 
 // Models
 const USER = require('../Models/user');
 
 // Middleware
 const Auth = require('../Middleware/Auth');
+
+// MiddleWare
+const auth = require('../MiddleWare/auth');
+
+// config multer
+let DIR = './Files';
+let storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, DIR);
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
+    cb(
+      null,
+      file.fieldname +
+        '-' +
+        uniqueSuffix +
+        '.' +
+        file.originalname.split('.')[file.originalname.split('.').length - 1]
+    );
+  },
+});
+
+const uploads = multer({ storage: storage }).single('image');
 
 router.get('/', async (req, res) => {
   res.send('ok');
@@ -19,10 +44,9 @@ router.post('/login', async (req, res) => {
   res.json({ email, password });
 });
 
-router.post('/create-user', async (req, res) => {
-  console.log(req.body);
+router.post('/create-user', uploads, async (req, res) => {
   let { name, email, gender, mobile_no, password } = req.body;
-
+  const avatar = req.file.filename;
   try {
     if (
       !(name && email && gender && mobile_no && password && password.length > 8)
@@ -33,7 +57,13 @@ router.post('/create-user', async (req, res) => {
     }
     password = bcrypt.hashSync(password, parseInt(process.env.BCRYPT_SALT));
 
-    // let response = await USER.create({ name, email, gender, mobile_no });
+    let response = await USER.create({
+      name,
+      email,
+      gender,
+      mobile_no,
+      avatar,
+    });
     const token = await jwt.sign(
       { name, email, mobile_no, user_id: response._id },
       process.env.JWT_KEY

@@ -1,7 +1,7 @@
-import { User } from './user.interface';
+import { Response, User } from './user.interface';
 
 export interface SharedState {
   spinner: boolean;
-  user: User;
+  user: Response;
   aside: boolean;
 }

@@ -1,5 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
-import { aside, loading } from './shared.action';
+import { aside, create_user_success, loading } from './shared.action';
 import { Initial_State } from './shared.state';
 
 const _loading_reducer = createReducer(
@@ -11,10 +11,15 @@ const _loading_reducer = createReducer(
     };
   }),
   on(aside, (state, action) => {
-    console.log(action);
     return {
       ...state,
       aside: !state.aside,
+    };
+  }),
+  on(create_user_success, (state, action) => {
+    return {
+      ...state,
+      user: action.response,
     };
   })
 );

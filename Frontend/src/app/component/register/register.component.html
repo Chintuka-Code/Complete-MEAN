@@ -122,6 +122,36 @@
             </div>
           </div>
         </div>
+
+        <div class="col-12 col-md-6 p-2">
+          <div class="form-group">
+            <label for="mobile">Mobile Number</label>
+            <input
+              type="text"
+              name="mobile"
+              class="form-control"
+              formControlName="mobile_number"
+              id=""
+            />
+
+            <div
+              *ngIf="
+                register_form.controls.mobile_number.invalid &&
+                register_form.controls.mobile_number.dirty
+              "
+              class="alert alert-danger mt-2"
+            >
+              <div *ngIf="register_form.controls.mobile_number.errors.required">
+                Mobile Number is required
+              </div>
+
+              <div *ngIf="register_form.controls.mobile_number.errors.pattern">
+                Only Number
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div class="col-12 col-md-6 p-2">
           <div class="form-group">
             <label for="file">Images</label>

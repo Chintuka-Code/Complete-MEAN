@@ -2,8 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { confirmPassword } from 'src/app/CustomValidation/confirm.password';
+import { UserCreateResponse } from 'src/app/Model/user.interface';
 import { UserService } from 'src/app/service/user.service';
-import { loading } from 'src/app/state/sharedstate/shared.action';
+import {
+  create_user_start,
+  loading,
+} from 'src/app/state/sharedstate/shared.action';
 import { passwordValidation } from '../../CustomValidation/password.validation';
 
 @Component({
@@ -28,6 +32,15 @@ export class RegisterComponent implements OnInit {
         email: ['', [Validators.required, Validators.email]],
         password: ['', [Validators.required, passwordValidation]],
         confirm_password: ['', [Validators.required]],
+        mobile_number: [
+          '',
+          [
+            Validators.required,
+            Validators.pattern(
+              /^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/
+            ),
+          ],
+        ],
         image: ['', [Validators.required]],
       },
       {
@@ -45,6 +58,7 @@ export class RegisterComponent implements OnInit {
   }
 
   register_user() {
+    this.store.dispatch(loading({ spinner: true }));
     const data = this.register_form.getRawValue();
 
     const formData: FormData = new FormData();
@@ -52,16 +66,14 @@ export class RegisterComponent implements OnInit {
     formData.append('name', data.name);
     formData.append('email', data.email);
     formData.append('password', data.password);
-    // formData.append('image', this.image);
+    formData.append('mobile_no', data.mobile_number);
+    formData.append('image', this.image);
     formData.append('gender', 'Male');
 
     formData.forEach((value, key) => {
       console.log(value);
     });
-
-    this.user_service.create_user(formData).subscribe((res) => {
-      console.log(res);
-    });
+    this.store.dispatch(create_user_start({ data: formData }));
   }
 
   ngOnInit(): void {
