@@ -20,6 +20,7 @@ router.post('/login', async (req, res) => {
 });
 
 router.post('/create-user', async (req, res) => {
+  console.log(req.body);
   let { name, email, gender, mobile_no, password } = req.body;
 
   try {
@@ -32,7 +33,7 @@ router.post('/create-user', async (req, res) => {
     }
     password = bcrypt.hashSync(password, parseInt(process.env.BCRYPT_SALT));
 
-    let response = await USER.create({ name, email, gender, mobile_no });
+    // let response = await USER.create({ name, email, gender, mobile_no });
     const token = await jwt.sign(
       { name, email, mobile_no, user_id: response._id },
       process.env.JWT_KEY

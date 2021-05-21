@@ -25,12 +25,12 @@ const User = require('./Routes/user');
 
 // Using middle ware
 app.use(cors());
-app.use(express.json());
 app.use(
   express.urlencoded({
     extended: true,
   })
 );
+app.use(express.json());
 
 app.use('/user', User);
 

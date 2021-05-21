@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Store } from '@ngrx/store';
 import { confirmPassword } from 'src/app/CustomValidation/confirm.password';
+import { UserService } from 'src/app/service/user.service';
+import { loading } from 'src/app/state/sharedstate/shared.action';
 import { passwordValidation } from '../../CustomValidation/password.validation';
 
 @Component({
@@ -12,7 +15,11 @@ export class RegisterComponent implements OnInit {
   register_form: FormGroup;
   image: any;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(
+    private fb: FormBuilder,
+    private user_service: UserService,
+    private store: Store
+  ) {}
 
   validation() {
     this.register_form = this.fb.group(
@@ -39,12 +46,22 @@ export class RegisterComponent implements OnInit {
 
   register_user() {
     const data = this.register_form.getRawValue();
-    const formData = new FormData();
+
+    const formData: FormData = new FormData();
+
     formData.append('name', data.name);
     formData.append('email', data.email);
     formData.append('password', data.password);
-    formData.append('image', this.image);
-    console.log(this.image);
+    // formData.append('image', this.image);
+    formData.append('gender', 'Male');
+
+    formData.forEach((value, key) => {
+      console.log(value);
+    });
+
+    this.user_service.create_user(formData).subscribe((res) => {
+      console.log(res);
+    });
   }
 
   ngOnInit(): void {
